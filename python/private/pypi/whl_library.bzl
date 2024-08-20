@@ -228,7 +228,6 @@ def _whl_library_impl(rctx):
         else:
             # It is an sdist and we need to tell PyPI to use a file in this directory
             # and not use any indexes.
-            # We also need to tell pip to not install the package, but only download it.
             extra_pip_args.extend(["--find-links", "."])
 
     args = _parse_optional_attrs(rctx, args, extra_pip_args)

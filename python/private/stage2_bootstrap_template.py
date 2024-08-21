@@ -364,6 +364,7 @@ relative_files = True
                 # Pipes can't be read back later, which can cause coverage to
                 # throw an error when trying to get its source code.
                 "/dev/fd/*",
+                "*/external/*",
             ],
         )
         cov.start()

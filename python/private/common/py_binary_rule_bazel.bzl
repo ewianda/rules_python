@@ -39,11 +39,12 @@ _PY_TEST_ATTRS = {
 }
 
 def _py_binary_impl(ctx):
-    return py_executable_bazel_impl(
+    _, providers = py_executable_bazel_impl(
         ctx = ctx,
         is_test = False,
         inherited_environment = [],
     )
+    return providers
 
 py_binary = create_executable_rule(
     implementation = _py_binary_impl,

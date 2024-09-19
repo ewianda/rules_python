@@ -340,3 +340,8 @@ exports_files([
 current_py_toolchain(
     name = "current_py_toolchain",
 )
+
+toolchain_type(
+    name = "test_runner_toolchain_type",
+    visibility = ["//visibility:public"],
+)

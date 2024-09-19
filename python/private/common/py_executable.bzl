@@ -816,18 +816,26 @@ def _create_providers(
     Returns:
         A list of modern providers.
     """
+    default_runfiles = _py_builtins.make_runfiles_respect_legacy_external_runfiles(
+        ctx,
+        runfiles_details.default_runfiles,
+    )
+    data_runfiles = _py_builtins.make_runfiles_respect_legacy_external_runfiles(
+        ctx,
+        runfiles_details.data_runfiles,
+    )
+    binary_info = struct(
+        files = default_outputs,
+        default_runfiles = default_runfiles,
+        data_runfiles = data_runfiles,
+        executable = executable,
+    )
     providers = [
         DefaultInfo(
             executable = executable,
             files = default_outputs,
-            default_runfiles = _py_builtins.make_runfiles_respect_legacy_external_runfiles(
-                ctx,
-                runfiles_details.default_runfiles,
-            ),
-            data_runfiles = _py_builtins.make_runfiles_respect_legacy_external_runfiles(
-                ctx,
-                runfiles_details.data_runfiles,
-            ),
+            default_runfiles = default_runfiles,
+            data_runfiles = data_runfiles,
         ),
         create_instrumented_files_info(ctx),
         _create_run_environment_info(ctx, inherited_environment),
@@ -897,7 +905,7 @@ def _create_providers(
         runtime_details = runtime_details,
     )
     providers.extend(extra_providers)
-    return providers
+    return binary_info, providers
 
 def _create_run_environment_info(ctx, inherited_environment):
     expanded_env = {}
